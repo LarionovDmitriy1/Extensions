@@ -27,36 +27,34 @@ public static class StringExtension
     }
     public static string Number(this string number)
     {
-        Regex regex = new Regex(@"[8]\d{10}$");
-        Regex regex1 = new Regex(@"[+7]\d{10}$");
-        if (regex.IsMatch(number))
-        {        
-            Console.WriteLine();
-            Console.WriteLine("Номер введён некорректно");
-            Console.WriteLine(number.Replace('8','7'));
-            Console.WriteLine();
-            return number;
-        }
-        else if (regex1.IsMatch(number))
+        Regex regex1 = new(@"^7\d{10}$");
+        Regex regex2 = new(@"^8\d{10}$");
+        Regex regex3 = new(@"^\+7\d{10}$");
+        if (regex1.IsMatch(number))
         {
-            number = number.Replace('+', ' ');
-            var i = number.ToList();
-            if (i.First() == '7')
-            {
-                i[0] = '8';
-            }
-            number = i.ToString();
             Console.WriteLine();
-            Console.WriteLine("Номер введён некорректно");
+            Console.WriteLine($"Номер корректен");
+            Console.WriteLine();
+        }
+        else if (regex2.IsMatch(number))
+        {
+            number = "7" + number.Remove(0, 1);
+            Console.WriteLine();
+            Console.WriteLine("Номер некорректный, так как введён с 8. Номер после преобразования: ");
             Console.WriteLine(number);
             Console.WriteLine();
-            return number;
+        }
+        else if (regex3.IsMatch(number))
+        {
+            number = "7" + number.Remove(0, 2);
+            Console.WriteLine();
+            Console.WriteLine("Номер некорректный, так как введён с +7. Номер после преобразования: ");
+            Console.WriteLine(number);
+            Console.WriteLine();
         }
         else
         {
-            Console.WriteLine();
-            Console.WriteLine("Номер введён корректно");
-            Console.WriteLine();
+            Console.WriteLine($"Номер не корректный");
         }
         return number;
     }
